@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadFileService } from './upload-file.service';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-upload-file',
   templateUrl: './upload-file.component.html',
@@ -35,8 +37,19 @@ export class UploadFileComponent implements OnInit {
       this.service.upload(this.files, 'http://localhost:8000/saveFile')
       .subscribe(data => {
         console.log(data);
+        document.getElementById('customFileLabel').innerHTML = 'Choose file';
+        this.files = new Set();
+        Swal.fire(
+          'Sucesso',
+          'Arquivo salvo com sucesso!',
+          'success'
+        );
       }, er => {
-        console.log(er);
+        Swal.fire(
+          'Opss..',
+          'Erro ao salvar o arquivo!',
+          'error'
+        );
       });
     }
   }
